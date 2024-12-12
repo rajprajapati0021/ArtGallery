@@ -1,4 +1,5 @@
 ﻿using ArtGallery.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtGallery.Domains
 {
@@ -12,7 +13,8 @@ namespace ArtGallery.Domains
         public string ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
         public ApprovalStatusEnum StatusEnum { get; set; }
-        public User AddedByUser { get; set; }
+        public long AddedByUser { get; set; }
+        [ForeignKey(nameof(AddedByUser))] public User? User { get; set; }
         public ICollection<Like>? Likes { get; set; }
         public ICollection<Comment>? Comments { get; set; }
 
