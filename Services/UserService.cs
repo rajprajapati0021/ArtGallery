@@ -36,6 +36,7 @@ namespace ArtGallery.Services
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             user.Age = model.Age;
+            if ( model.Id == 0 ) user.Password = model.Password;
             user.Role = "user";
 
             if (user.Id > 0)
@@ -83,7 +84,7 @@ namespace ArtGallery.Services
                 configuration.GetSection("JWT:Audience").Value,
                 claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(90),
+                expires: DateTime.UtcNow.AddMinutes(360),
                 signingCredentials: credential
             );
 

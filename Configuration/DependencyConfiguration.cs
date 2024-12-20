@@ -12,6 +12,9 @@ namespace ArtGallery.Configuration
             services.AddHttpContextAccessor();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddHttpContextAccessor();
         }
     }
 }

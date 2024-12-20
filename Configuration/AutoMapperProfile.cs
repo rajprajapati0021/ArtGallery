@@ -11,7 +11,9 @@ namespace ArtGallery.Configuration
         {
             //AddUpdateEmployeeRequestModel
             CreateMap<UserResponseModel, User>().ReverseMap();
-            CreateMap<UserRequestModel, User>().ReverseMap()    ;
+            CreateMap<UserRequestModel, User>().ReverseMap();
+            CreateMap<ProductResponseModel, Product>().ReverseMap();
+            CreateMap<Comment, CommentResponseModel>().ReverseMap();
 
 
 
