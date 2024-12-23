@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
+    "builder": "Microsoft.NET.Sdk.Web",
     "buildCommand": "dotnet publish -c Release -o out"
   },
   "deploy": {

@@ -7,26 +7,18 @@
 	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="12.0.1" />
-		<!-- Stable version -->
-		<PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
-		<!-- Should work fine, no downgrade needed -->
-		<PackageReference Include="FluentValidation" Version="11.2.2" />
-		<!-- Compatible with older .NET versions -->
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
-		<!-- Compatible with .NET 7 -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
-		<!-- Compatible with .NET 7 -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
-		<!-- Compatible with EF Core 7 -->
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
-		<!-- Compatible with .NET 7 -->
-	</ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
 
 </Project>
