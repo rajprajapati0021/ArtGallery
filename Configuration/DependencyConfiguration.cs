@@ -1,6 +1,7 @@
 ﻿using ArtGallery.Repositories;
 using ArtGallery.ServiceInterfaces;
 using ArtGallery.Services;
+using AutoMapper;
 
 namespace ArtGallery.Configuration
 {
