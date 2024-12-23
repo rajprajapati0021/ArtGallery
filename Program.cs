@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureMySql(configuration);
 builder.Services.ConfigureAuthentication(configuration);
 builder.Services.AddDependencyConfiguration(configuration);
+builder.Logging.AddConsole();
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(x =>
 {
     x.AllowAnyOrigin()
