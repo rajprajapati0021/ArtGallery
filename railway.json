@@ -2,7 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "wget https://download.visualstudio.microsoft.com/download/pr/7b64f6a1-2d33-433e-90bb-69cf8fd1ab8d/cf8d527cc0e4e1a8a9413ef58f9469ad/dotnet-sdk-8.0.202-linux-x64.tar.gz -O dotnet-sdk.tar.gz && mkdir -p /usr/share/dotnet && tar -zxf dotnet-sdk.tar.gz -C /usr/share/dotnet && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet && dotnet restore && dotnet publish -c Release -o out"
+    "buildCommand": "dotnet publish -c Release -o out"
   },
   "deploy": {
     "runtime": "V2",
