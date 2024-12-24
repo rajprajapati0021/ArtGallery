@@ -14,12 +14,17 @@ try
     builder.Services.ConfigureAuthentication(configuration);
     builder.Services.AddDependencyConfiguration(configuration);
     builder.Logging.AddConsole();
-    builder.Services.AddCors(opt => opt.AddDefaultPolicy(x =>
+    builder.Services.AddCors(options =>
     {
-        x.WithOrigins("https://artgallery-production-d03d.up.railway.app", "http://localhost:4200")
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-    }));
+        options.AddPolicy("AllowSpecificOrigins",
+            policy =>
+            {
+                policy.WithOrigins("https://artgallery-production-d03d.up.railway.app", "http://localhost:4200")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+    });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -30,7 +35,7 @@ try
     }
 
     app.UseHttpsRedirection();
-    app.UseCors();
+    app.UseCors("AllowSpecificOrigins");
     app.UseAuthentication();
     app.UseAuthorization();
 
