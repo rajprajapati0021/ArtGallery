@@ -16,16 +16,18 @@ try
     builder.Logging.AddConsole();
     builder.Services.AddCors(opt => opt.AddDefaultPolicy(x =>
     {
-        x.AllowAnyOrigin()
+        x.WithOrigins("https://artgallery-production-d03d.up.railway.app", "http://localhost:4200")
         .AllowAnyMethod()
         .AllowAnyHeader();
     }));
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-
+    if (app.Environment.IsDevelopment())
+    {
         app.UseSwagger();
         app.UseSwaggerUI();
+    }
 
     app.UseHttpsRedirection();
     app.UseCors();
