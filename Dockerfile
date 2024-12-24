@@ -1,9 +1,13 @@
 # Use the official ASP.NET Core runtime as a base image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
-# Create a non-root user named 'app' and set the working directory
-RUN useradd -m app
+# Check if the 'app' user exists; if not, create it
+RUN id -u app &>/dev/null || useradd -m app
+
+# Switch to the 'app' user
 USER app
+
+# Set the working directory
 WORKDIR /app
 
 # Expose the ports the application will listen on
