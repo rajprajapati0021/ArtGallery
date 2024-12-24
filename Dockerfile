@@ -1,19 +1,25 @@
-# Build stage
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-
-# Copy the project files to the container
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["ArtGallery.csproj", "."]
+RUN dotnet restore "./ArtGallery.csproj"
 COPY . .
+WORKDIR "/src/."
+RUN dotnet build "./ArtGallery.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publish the application
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./ArtGallery.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM base AS final
 WORKDIR /app
-
-# Copy the published files from the build stage
-COPY --from=build /app/out .
-
-# Set the entry point for the application
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ArtGallery.dll"]
