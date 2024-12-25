@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtGallery.Domains
 {
+    [Table("products")]
     public class Product
     {
         public long Id { get; set; }

@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace ArtGallery.Domains;
 
+
+[Table("likes")]
+
 public class Like
 {
     public long Id { get; set; }

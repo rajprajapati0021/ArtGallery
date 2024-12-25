@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ArtGallery.Domains;
-
+[Table("comments")]
 public class Comment
 {
     public long Id { get; set; }

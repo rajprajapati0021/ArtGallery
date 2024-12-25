@@ -1,7 +1,9 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ArtGallery.Domains
 {
+    [Table("users")]
     public class User
     {
         public long Id { get; set; }
