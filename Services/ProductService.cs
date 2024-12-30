@@ -105,7 +105,7 @@ namespace ArtGallery.Services
             {
                 like = new Like
                 {
-                    DateTime = likeRequestModel.DateTime,
+                    DateTime =  DateTime.Now,
                     LikedByUser = userId,
                     ProductId = likeRequestModel.ProductId,
                 };
@@ -125,7 +125,7 @@ namespace ArtGallery.Services
 
             comment.Id = commentRequestModel.Id;
             comment.ProductId = commentRequestModel.ProductId;
-            if (commentRequestModel.Id == 0) comment.DateTime = commentRequestModel.DateTime;
+            if (commentRequestModel.Id == 0) comment.DateTime = DateTime.Now;
             comment.CommentText = commentRequestModel.CommentText;
             comment.CommentByUser = userId;
 

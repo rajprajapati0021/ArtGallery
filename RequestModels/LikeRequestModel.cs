@@ -2,7 +2,8 @@
 {
     public record LikeRequestModel
     {
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
         public long ProductId { get; set; }
+
     }
 }
