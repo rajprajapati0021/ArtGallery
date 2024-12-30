@@ -69,8 +69,8 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetComments(long productId)
     {
         var comments = await productService.GetAllCommentsAsync(productId);
-    }
         return Ok(comments);
+    }
 
     [Authorize]
     [HttpPost("delete-comment")]
