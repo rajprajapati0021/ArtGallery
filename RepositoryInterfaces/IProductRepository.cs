@@ -20,6 +20,9 @@ namespace ArtGallery.ServiceInterfaces
         public Task<Comment?> GetUserComment(long commentId, long userId);
         public Task<List<Comment>> GetAllComments(long productId);
         public void DeleteComment(Comment comment);
+        public Task AddToCartAsync(CartItem cartItem);
+        public Task<List<CartItem>> GetCartItemsAsync(long? cartItemId,long userId);
+        public void DeleteCartItem(CartItem cartItem);
 
     }
 }

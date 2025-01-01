@@ -40,7 +40,7 @@ public class ProductController : ControllerBase
         return Ok(products);
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPost("delete-product")]
     public async Task<IActionResult> DeleteProduct([FromBody] long productId)
     {
@@ -78,6 +78,30 @@ public class ProductController : ControllerBase
     {
         await productService.DeleteComment(commentId);
         return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("add-to-cart")]
+    public async Task<IActionResult> AddToCart([FromBody]long productId)
+    {
+        await productService.AddToCartAsync(productId);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost("remove-from-cart")]
+    public async Task<IActionResult> RemoveFromCart([FromBody]long cartItemId)
+    {
+        await productService.RemoveFromCartAsync(cartItemId);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpGet("get-cart-items")]
+    public async Task<IActionResult> GetCartItems()
+    {
+        var cartItems = await productService.GetCartItemsAsync();
+        return Ok(cartItems);
     }
 
     [HttpPost("/pdfToImage")]

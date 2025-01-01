@@ -14,6 +14,7 @@ namespace ArtGallery.Configuration
             CreateMap<UserRequestModel, User>().ReverseMap();
             CreateMap<ProductResponseModel, Product>().ReverseMap();
             CreateMap<Comment, CommentResponseModel>().ReverseMap();
+            CreateMap<CartItem, CartResponseModel>().ReverseMap();
 
 
 

@@ -14,6 +14,9 @@ namespace ArtGallery.ServiceInterfaces
         public Task<CommentResponseModel> AddUpdateCommentAsync(CommentRequestModel commentRequestModel);
         public Task DeleteComment(long commentId);
         public Task<List<CommentResponseModel>> GetAllCommentsAsync(long productId);
+        public Task AddToCartAsync(long productId);
+        public Task RemoveFromCartAsync(long cartId);
+        public Task<List<CartResponseModel>> GetCartItemsAsync();
 
     }
 }

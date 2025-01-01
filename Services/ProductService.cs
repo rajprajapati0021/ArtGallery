@@ -12,7 +12,7 @@ using CloudinaryDotNet.Actions;
 
 namespace ArtGallery.Services
 {
-    public class ProductService(IProductRepository productRepository,IMapper _mapper, IConfiguration configuration,IHttpContextAccessor httpContextAccessor) : IProductService
+    public class ProductService(IProductRepository productRepository, IMapper _mapper, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : IProductService
     {
         private long userId = httpContextAccessor.HttpContext.User.GetUserIdFromClaim();
         public async Task AddUpdateProductAsync(AddUpdateProductRequestModel model)
@@ -156,6 +156,29 @@ namespace ArtGallery.Services
            var comments = await productRepository.GetAllComments(productId);
            var commentResponseModels = _mapper.Map<List<CommentResponseModel>>(comments);
             return commentResponseModels;
+        }
+
+        public async Task AddToCartAsync(long productId)
+        {
+            CartItem cartItem = new();
+            cartItem.ProductId = productId;
+            cartItem.UserId = userId;
+            cartItem.datetime = DateTime.Now;
+            await productRepository.AddToCartAsync(cartItem);
+        }
+
+        public async Task RemoveFromCartAsync(long cartId)
+        {
+            List<CartItem> carts = await productRepository.GetCartItemsAsync(cartId,userId);
+            CartItem cart = carts.FirstOrDefault() ?? throw new NotFoundException("cart item", cartId);
+            productRepository.DeleteCartItem(cart);
+        }
+
+        public async Task<List<CartResponseModel>> GetCartItemsAsync()
+        {
+            var cartItems = await productRepository.GetCartItemsAsync(null,userId);
+            var cartResponseModels = _mapper.Map<List<CartResponseModel>>(cartItems);
+            return cartResponseModels;
         }
     }
 }

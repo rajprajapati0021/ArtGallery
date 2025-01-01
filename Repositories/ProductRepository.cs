@@ -110,5 +110,27 @@ namespace ArtGallery.Repositories
             }
         }
 
+        public async Task AddToCartAsync(CartItem cartItem)
+        {
+            await artGallleryContext.CartItems.AddAsync(cartItem);
+            await artGallleryContext.SaveChangesAsync();
+        }
+
+        public async Task<List<CartItem>> GetCartItemsAsync(long? cartItemId, long userId)
+        {
+            var cartItems = await artGallleryContext.CartItems
+                .Include(x => x.Product).ThenInclude(x => x.User)
+                .Include(x => x.User)
+                .Where(x => (cartItemId == null || x.Id == cartItemId) && x.UserId == userId)
+                .ToListAsync();
+
+            return cartItems;
+        }
+
+        public void DeleteCartItem(CartItem cartItem)
+        {
+            artGallleryContext.CartItems.Remove(cartItem);
+            artGallleryContext.SaveChanges();
+        }
     }
 }
