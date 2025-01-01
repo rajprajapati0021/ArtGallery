@@ -46,7 +46,7 @@ try
         options.AddPolicy("AllowSpecificOrigins",
             policy =>
             {
-                policy.WithOrigins("https://artgallery-production-d03d.up.railway.app", "http://localhost:4200", "https://angularproject-production-6dff.up.railway.app/")
+                policy.AllowAnyOrigin()
                       .AllowAnyMethod()
                       .AllowAnyHeader();
             });
