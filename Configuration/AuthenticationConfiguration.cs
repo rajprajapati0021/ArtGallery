@@ -10,11 +10,6 @@ public static class AuthenticationConfiguration
     public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var securityKey = configuration["JWT:SecurityKey"];
-        if (string.IsNullOrEmpty(securityKey))
-        {
-            throw new ArgumentNullException(nameof(securityKey), "JWT SecurityKey is missing or empty.");
-        }
-
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
