@@ -22,6 +22,12 @@ public class UserController(IUserService userService) : ControllerBase
             return Ok(new { token = token});
     }
 
+    [HttpGet("google-sign-in")]
+    public async Task<IActionResult> GoogleSignIn()
+    {
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> UserDetail(long? userId,string? email)
     {

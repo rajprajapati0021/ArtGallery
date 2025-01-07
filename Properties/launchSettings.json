@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://0.0.0.0:5269"
+      "applicationUrl": "http://d77hgd12-443.inc1.devtunnels.ms"
     },
     "https": {
       "commandName": "Project",
@@ -18,7 +18,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://0.0.0.0:5269;http://localhost:5269"
+      "applicationUrl": "https://d77hgd12-443.inc1.devtunnels.ms"
     },
     "IIS Express": {
       "commandName": "IISExpress",

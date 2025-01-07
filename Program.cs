@@ -1,4 +1,5 @@
 using ArtGallery.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
 
 try
@@ -38,7 +39,23 @@ try
     });
     });
     builder.Services.ConfigureMySql(configuration);
-    builder.Services.ConfigureAuthentication(configuration);
+    //builder.Services.ConfigureAuthentication(configuration);
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.Google.GoogleDefaults.AuthenticationScheme;
+    })
+.AddCookie() // Cookie-based authentication
+.AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    googleOptions.CallbackPath = new PathString("/api/user/google-sign-in"); // Default callback path;
+    //googleOptions.AuthorizationEndpoint = "https://d77hgd12-443.inc1.devtunnels.ms";
+    googleOptions.Scope.Add("email"); // Additional scopes, e.g., email
+    googleOptions.SaveTokens = true; // Save access and ID tokens
+});
+    builder.Services.AddAuthorization();
     builder.Services.AddDependencyConfiguration(configuration);
     builder.Logging.AddConsole();
     builder.Services.AddCors(options =>
@@ -60,12 +77,35 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     //}
+    app.MapGet("/signin", async context =>
+    {
+        await context.ChallengeAsync(Microsoft.AspNetCore.Authentication.Google.GoogleDefaults.AuthenticationScheme);
+    });
+
+    app.MapGet("/signout", async context =>
+    {
+        await context.SignOutAsync(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme);
+        context.Response.Redirect("/");
+    });
+    app.MapGet("/secure", async context =>
+    {
+        if (context.User.Identity?.IsAuthenticated ?? false)
+        {
+            var name = context.User.FindFirst("name")?.Value;
+            var email = context.User.FindFirst("email")?.Value;
+            await context.Response.WriteAsync($"Hello {name}! Your email is {email}.");
+        }
+        else
+        {
+            context.Response.Redirect("/signin");
+        }
+    });
+
 
     app.UseHttpsRedirection();
     app.UseCors("AllowSpecificOrigins");
     app.UseAuthentication();
     app.UseAuthorization();
-
     app.MapControllers();
 
     await app.RunAsync();
