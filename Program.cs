@@ -1,5 +1,6 @@
 using ArtGallery.Configuration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.OpenApi.Models;
 
 try
@@ -54,6 +55,10 @@ try
     //googleOptions.AuthorizationEndpoint = "https://d77hgd12-443.inc1.devtunnels.ms";
     googleOptions.Scope.Add("email"); // Additional scopes, e.g., email
     googleOptions.SaveTokens = true; // Save access and ID tokens
+    googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    googleOptions.AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+    googleOptions.TokenEndpoint = "https://oauth2.googleapis.com/token";
+    googleOptions.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
 });
     builder.Services.AddAuthorization();
     builder.Services.AddDependencyConfiguration(configuration);

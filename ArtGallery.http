@@ -1,4 +1,4 @@
-@ArtGallery_HostAddress = http://localhost:5164
+@ArtGallery_HostAddress = https://localhost:5164
 
 GET {{ArtGallery_HostAddress}}/weatherforecast/
 Accept: application/json
