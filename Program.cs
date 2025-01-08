@@ -51,10 +51,9 @@ try
 {
     googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    googleOptions.CallbackPath = new PathString("/api/user/google-sign-in"); // Default callback path;
-    //googleOptions.AuthorizationEndpoint = "https://d77hgd12-443.inc1.devtunnels.ms";
-    googleOptions.Scope.Add("email"); // Additional scopes, e.g., email
-    googleOptions.SaveTokens = true; // Save access and ID tokens
+    googleOptions.CallbackPath = new PathString("/api/user/google-sign-in");
+    googleOptions.Scope.Add("email");
+    googleOptions.SaveTokens = true; 
     googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     googleOptions.AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
     googleOptions.TokenEndpoint = "https://oauth2.googleapis.com/token";
@@ -74,6 +73,10 @@ try
             });
     });
 
+    builder.Services.Configure<CookiePolicyOptions>(option =>
+    {
+        option.MinimumSameSitePolicy = SameSiteMode.Lax;
+    });
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
