@@ -73,12 +73,12 @@ try
             });
     });
 
-    builder.Services.Configure<CookiePolicyOptions>(option =>
-    {
-        option.MinimumSameSitePolicy = SameSiteMode.Lax;
-    });
     var app = builder.Build();
-
+    app.UseCookiePolicy(new CookiePolicyOptions()
+    {
+        MinimumSameSitePolicy = SameSiteMode.None
+    });
+    app.UseHsts();  
     // Configure the HTTP request pipeline.
     //if (app.Environment.IsDevelopment())
     //{
