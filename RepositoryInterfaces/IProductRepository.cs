@@ -23,6 +23,8 @@ namespace ArtGallery.ServiceInterfaces
         public Task AddToCartAsync(CartItem cartItem);
         public Task<List<CartItem>> GetCartItemsAsync(long? cartItemId,long userId);
         public void DeleteCartItem(CartItem cartItem);
+        public Task AddOrderAsync(List<Order> orders);
+        public Task<List<Order>> GetOrdersAsync(long userId, long? orderId);
 
     }
 }

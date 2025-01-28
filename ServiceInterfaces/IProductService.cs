@@ -17,6 +17,8 @@ namespace ArtGallery.ServiceInterfaces
         public Task AddToCartAsync(long productId);
         public Task RemoveFromCartAsync(long cartId);
         public Task<List<CartResponseModel>> GetCartItemsAsync();
+        public Task<List<OrderResponseModel>> GetOrdersAsync();
+        public Task AddOrderAsync(List<long> productIds);
 
     }
 }

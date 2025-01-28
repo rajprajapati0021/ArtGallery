@@ -1,6 +1,4 @@
 using ArtGallery.Configuration;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.OpenApi.Models;
 
 try
@@ -40,26 +38,7 @@ try
     });
     });
     builder.Services.ConfigureMySql(configuration);
-    //builder.Services.ConfigureAuthentication(configuration);
-    builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.Google.GoogleDefaults.AuthenticationScheme;
-    })
-.AddCookie() // Cookie-based authentication
-.AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    googleOptions.CallbackPath = new PathString("/api/user/google-sign-in");
-    googleOptions.Scope.Add("email");
-    googleOptions.SaveTokens = true; 
-    googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    googleOptions.AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
-    googleOptions.TokenEndpoint = "https://oauth2.googleapis.com/token";
-    googleOptions.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
-});
-    builder.Services.AddAuthorization();
+    builder.Services.ConfigureAuthentication(configuration);
     builder.Services.AddDependencyConfiguration(configuration);
     builder.Logging.AddConsole();
     builder.Services.AddCors(options =>
@@ -74,41 +53,13 @@ try
     });
 
     var app = builder.Build();
-    app.UseCookiePolicy(new CookiePolicyOptions()
-    {
-        MinimumSameSitePolicy = SameSiteMode.None
-    });
-    app.UseHsts();  
+
     // Configure the HTTP request pipeline.
     //if (app.Environment.IsDevelopment())
     //{
         app.UseSwagger();
         app.UseSwaggerUI();
     //}
-    app.MapGet("/signin", async context =>
-    {
-        await context.ChallengeAsync(Microsoft.AspNetCore.Authentication.Google.GoogleDefaults.AuthenticationScheme);
-    });
-
-    app.MapGet("/signout", async context =>
-    {
-        await context.SignOutAsync(Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme);
-        context.Response.Redirect("/");
-    });
-    app.MapGet("/secure", async context =>
-    {
-        if (context.User.Identity?.IsAuthenticated ?? false)
-        {
-            var name = context.User.FindFirst("name")?.Value;
-            var email = context.User.FindFirst("email")?.Value;
-            await context.Response.WriteAsync($"Hello {name}! Your email is {email}.");
-        }
-        else
-        {
-            context.Response.Redirect("/signin");
-        }
-    });
-
 
     app.UseHttpsRedirection();
     app.UseCors("AllowSpecificOrigins");

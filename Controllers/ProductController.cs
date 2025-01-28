@@ -104,6 +104,22 @@ public class ProductController : ControllerBase
         return Ok(cartItems);
     }
 
+    [Authorize]
+    [HttpPost("order")]
+    public async Task<IActionResult> AddOrder(List<long> orderProductIds)
+    {
+        await productService.AddOrderAsync(orderProductIds);
+        return Ok();
+        }
+
+    [Authorize]
+    [HttpGet("get-orders")]
+    public async Task<IActionResult> GetOrders()
+    {
+        var orders = await productService.GetOrdersAsync();
+        return Ok(orders);
+    }
+
     [HttpPost("/pdfToImage")]
     public async Task<IActionResult> PdfToImage(IFormFile pdf)
     {

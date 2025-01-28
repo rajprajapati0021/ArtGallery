@@ -3,6 +3,7 @@ using ArtGallery.ServiceInterfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ArtGallery.Repositories
 {
@@ -127,10 +128,26 @@ namespace ArtGallery.Repositories
             return cartItems;
         }
 
+        public async Task<List<Order>> GetOrdersAsync(long userId,long? orderId)
+        {
+            var orders = await artGallleryContext.Orders
+                .Include(x => x.Product).ThenInclude(x => x.User)
+                .Where(x => (orderId == null || x.Id == orderId) && x.OrderBy == userId)
+                .ToListAsync();
+
+            return orders;
+        }
+
         public void DeleteCartItem(CartItem cartItem)
         {
             artGallleryContext.CartItems.Remove(cartItem);
             artGallleryContext.SaveChanges();
+        }
+
+        public async Task AddOrderAsync(List<Order> orders)
+        {
+            await artGallleryContext.Orders.AddRangeAsync(orders);
+            await artGallleryContext.SaveChangesAsync();
         }
     }
 }

@@ -167,6 +167,30 @@ namespace ArtGallery.Services
             await productRepository.AddToCartAsync(cartItem);
         }
 
+        public async Task AddOrderAsync(List<long> productIds)
+        {
+            List<Order> orders = new();
+
+            productIds.ForEach(productId =>
+            {
+                Order order = new();
+                order.ProductId = productId;
+                order.OrderBy = userId;
+                order.DateTime = DateTime.Now;
+                order.Status = OrderStatusEnum.Pending;
+                orders.Add(order);  
+            }); 
+   
+            await productRepository.AddOrderAsync(orders);
+        }
+
+        public async Task<List<OrderResponseModel>> GetOrdersAsync()
+        {
+            var orders = await productRepository.GetOrdersAsync(userId, null);
+            var orderResponseModels = _mapper.Map<List<OrderResponseModel>>(orders);
+            return orderResponseModels;
+        }
+
         public async Task RemoveFromCartAsync(long cartId)
         {
             List<CartItem> carts = await productRepository.GetCartItemsAsync(cartId,userId);
