@@ -10,6 +10,7 @@ namespace ArtGallery.Domains
         public DbSet<Product> Products { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
     }
 }

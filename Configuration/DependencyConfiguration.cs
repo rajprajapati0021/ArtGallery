@@ -10,11 +10,12 @@ namespace ArtGallery.Configuration
         public static void AddDependencyConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(typeof(Program));
-            services.AddHttpContextAccessor();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IChatService,ChatService>();
+            services.AddTransient<IChatRepository, ChatRepository>();   
             services.AddHttpContextAccessor();
         }
     }

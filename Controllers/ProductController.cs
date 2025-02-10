@@ -99,7 +99,7 @@ public class ProductController : ControllerBase
     [Authorize]
     [HttpGet("get-cart-items")]
     public async Task<IActionResult> GetCartItems()
-    {
+    {   
         var cartItems = await productService.GetCartItemsAsync();
         return Ok(cartItems);
     }
@@ -115,7 +115,7 @@ public class ProductController : ControllerBase
     [Authorize]
     [HttpGet("get-orders")]
     public async Task<IActionResult> GetOrders()
-    {
+        {
         var orders = await productService.GetOrdersAsync();
         return Ok(orders);
     }

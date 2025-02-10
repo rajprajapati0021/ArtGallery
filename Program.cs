@@ -1,4 +1,5 @@
 using ArtGallery.Configuration;
+using ArtGallery.Domains;
 using Microsoft.OpenApi.Models;
 
 try
@@ -40,15 +41,17 @@ try
     builder.Services.ConfigureMySql(configuration);
     builder.Services.ConfigureAuthentication(configuration);
     builder.Services.AddDependencyConfiguration(configuration);
+    builder.Services.AddSignalR();
     builder.Logging.AddConsole();
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowSpecificOrigins",
             policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.WithOrigins("http://192.168.0.221:5269", "http://localhost:4200")
                       .AllowAnyMethod()
-                      .AllowAnyHeader();
+                      .AllowAnyHeader()
+                    .AllowCredentials();
             });
     });
 
@@ -65,6 +68,7 @@ try
     app.UseCors("AllowSpecificOrigins");
     app.UseAuthentication();
     app.UseAuthorization();
+    app.MapHub<ChatHub>("/api/chatHub").RequireAuthorization();
     app.MapControllers();
 
     await app.RunAsync();

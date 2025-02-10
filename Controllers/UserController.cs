@@ -30,7 +30,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> UserDetail(long? userId,string? email)
-    {
+        {
         var userDetails = await userService.GetUserAsync(userId,email);
         return Ok(userDetails);
     }
