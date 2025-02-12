@@ -7,7 +7,6 @@ namespace ArtGallery.Domains
     public class ChatHub : Hub
     {
         private long _userId {  get; set; }
-
         private static List<long> activeUserIds { get; set; } = [];
         public async Task SendMessage(string message)
         {
@@ -17,13 +16,15 @@ namespace ArtGallery.Domains
 
         public async Task SendMessageToUser(long userId, MessageResponseModel message)
         {
-            await Clients.User(userId.ToString()).SendAsync("ReceiveMessage", message, _userId.ToString());
+            var userIdString = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await Clients.User(userId.ToString()).SendAsync("ReceiveMessage", message, userIdString);
 
         }
 
         public override Task OnConnectedAsync()
         {
             var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             if (long.TryParse(userId, out long userIdLong))
             {
                 _userId = userIdLong;
@@ -39,25 +40,30 @@ namespace ArtGallery.Domains
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
+            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (long.TryParse(userId, out long userIdLong))
+            {
+                _userId = userIdLong;
+            }
             Console.WriteLine("User Disconnected!");
             activeUserIds.Remove(_userId);
             await Clients.Others.SendAsync("ReceiveActiveUserIds", activeUserIds);
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task OnCutCall(string targetUserId)
+        public async Task OnCutCall(string targetUserId, bool isVideoChat)
         {
-            await Clients.User(targetUserId).SendAsync("OnCutCall");
+            await Clients.User(targetUserId).SendAsync("OnCutCall",isVideoChat);
         } 
 
-        public async Task SendSignal(string targetUserId, string signalData)
+        public async Task SendSignal(string targetUserId, string signalData, bool isVideoChat)
         {
             try
             {
                 // Ensure target user ID is valid
                 if (!string.IsNullOrEmpty(targetUserId))
                 {
-                    await Clients.User(targetUserId).SendAsync("ReceiveSignal", Context.UserIdentifier, signalData);
+                    await Clients.User(targetUserId).SendAsync("ReceiveSignal", Context.UserIdentifier, signalData, isVideoChat);
                 }
             }
             catch (Exception ex)
